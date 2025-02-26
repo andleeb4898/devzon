@@ -1,0 +1,11 @@
+Project and Challenges page details 
+
+In the Project Page of Dev Zone, students will have access to tutorials to guide them through project development. Once they complete the project by following the tutorials, they will submit their YouTube project link along with the skills they acquired.
+
+After submission, points will be added to the dashboard under the "Rook" category.
+
+Each weekly task will also have designated points, which will be added to the dashboard after successful completion and submission.
+
+Similarly, the Challenges Section will feature coding challenges specifically designed for Software Engineering (SE) and Computer Science (CS) students. Upon completing each challenge, students will receive detailed feedback on areas where they lack and what needs improvement.
+
+Each task and challenge will have predefined points, which will be added to the "Rook" dashboard
