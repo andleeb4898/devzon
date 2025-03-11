@@ -1,8 +1,8 @@
-"use client";  // 👈 Ensure this is a client component
+"use client";  //  client component
 
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-import Header from "./components/Header"; // Ensure you have a Header component
+import Header from "./components/Header"; //  Header component
 import "./globals.css";
 
 export default function RootLayout({ children }) {
@@ -20,11 +20,12 @@ export default function RootLayout({ children }) {
             </div>
           ) : (
             <>
-              {/* Show Header + Content on all other pages */}
-              <SignedIn>
-                <Header />  {/* Navbar with links to Profile, Home, Dashboard */}
-              </SignedIn>
-              <main>{children}</main>
+          {/* Show Header + Content on all other pages */}
+          <SignedIn>
+            <Header />  {/* Navbar with links to Home, About, Profile, Dashboard, Sign Out */}
+          </SignedIn>
+
+              <main className="pt-16">{children}</main> {/* Added padding to prevent overlap */}
             </>
           )}
         </body>

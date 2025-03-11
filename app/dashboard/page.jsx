@@ -1,39 +1,30 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import WeeklyTutorial from "../components/WeeklyTutorial";
+import TeamManagement from "../components/TeamManagement";
 
-const ProjectsPage = () => {
-  const [projects, setProjects] = useState([]);
+const DashboardPage = () => {
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
 
-  // Fetch projects from backend
   useEffect(() => {
-    async function fetchProjects() {
-      const res = await fetch("/api/projects");  // API endpoint for projects
-      const data = await res.json();
-      setProjects(data);
-    }
-    fetchProjects();
+    setLoading(false);
   }, []);
 
-  return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h1 className="text-3xl font-bold text-blue-400">🚀 Dev Zone Projects</h1>
-      <p className="text-gray-400">Work on real-world projects and level up!</p>
+  if (loading) return <div>Loading...</div>;
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {projects.map((project) => (
-          <Link key={project.id} href={`/dashboard/projects/${project.id}`}>
-            <div className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition">
-              <h2 className="text-xl font-semibold">{project.title}</h2>
-              <p className="text-gray-400">{project.description}</p>
-              <span className="text-blue-400 mt-2 block">View Project →</span>
-            </div>
-          </Link>
-        ))}
-      </div>
+  if (!user) {
+    return <div>Please sign in to access your dashboard.</div>; 
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h1 className="text-4xl font-bold">Welcome to Your Dashboard, {user.firstName}!</h1>
+      <WeeklyTutorial />
+      <TeamManagement />
     </div>
   );
 };
 
-export default ProjectsPage;
+export default DashboardPage;

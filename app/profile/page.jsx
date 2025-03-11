@@ -1,20 +1,64 @@
-"use client"; // 👈 Ensure it's a Client Component
-
-import { UserProfile } from "@clerk/nextjs";
+"use client"; 
+import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 const ProfilePage = () => {
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+  });
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData({ ...profileData, [name]: value });
+  };
+
+  if (loading) return <div>Loading...</div>;
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-3xl">
-        <h2 className="text-4xl font-extrabold text-center mb-6 text-gray-900 tracking-wide">
-          Your Profile
-        </h2>
-        <div className="border-t-4 border-blue-500 shadow-lg rounded-xl bg-gray-50 flex justify-center p-6">
-          <div className="w-full max-w-lg">
-            <UserProfile />
-          </div>
+    <div>
+      <h1>Your Profile</h1>
+      {isEditing ? (
+        <div>
+          <input 
+            type="text" 
+            name="firstName" 
+            value={profileData.firstName} 
+            onChange={handleChange} 
+          />
+          <input 
+            type="text" 
+            name="lastName" 
+            value={profileData.lastName} 
+            onChange={handleChange} 
+          />
+          <input 
+            type="email" 
+            name="email" 
+            value={profileData.email} 
+            onChange={handleChange} 
+          />
+          <button onClick={handleEdit}>Save</button>
         </div>
-      </div>
+      ) : (
+        <div>
+          <p>Name: {profileData.firstName} {profileData.lastName}</p>
+          <p>Email: {profileData.email}</p>
+          <button onClick={handleEdit}>Edit Profile</button>
+        </div>
+      )}
     </div>
   );
 };
